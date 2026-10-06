@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Gabriella, quer casar comigo?</title>
+    <link href="https://cdn.jsdelivr.net/npm/confetti-js@0.0.18/dist/index.min.js" rel="preload">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            user-select: none;
+        }
+
+        :root {
+            --primary-rose: #e89ba8;
+            --secondary-rose: #f0b5c4;
+            --dark-rose: #c4596d;
+            --beige: #f5f1ed;
+            --champagne: #e8dcc8;
+            --gold: #d4a574;
+            --text-dark: #3d2f2f;
+            --text-light: #6b5555;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, var(--beige) 0%, var(--champagne) 100%);
+            color: var(--text-dark);
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: max(env(safe-area-inset-top), 16px) max(env(safe-area-inset-right), 16px) max(env(safe-area-inset-bottom), 16px) max(env(safe-area-inset-left), 16px);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 393px;
+            height: auto;
+            max-height: 852px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 24px;
+            border-radius: 32px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(196, 89, 109, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            gap: 28px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Animações de partículas decorativas */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            font-size: 24px;
+            animation: float-particle 3s ease-in-out forwards;
+            will-change: transform, opacity;
+        }
+
+        @keyframes float-particle {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-60px) scale(0.3);
+            }
+        }
+
+        /* Seção Hero */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .greeting {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-light);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .name-highlight {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-rose) 0%, var(--dark-rose) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'Georgia', serif;
+            letter-spacing: -0.5px;
+        }
+
+        .message-box {
+            padding: 20px 16px;
+            background: rgba(232, 155, 168, 0.08);
+            border-radius: 20px;
+            border-left: 4px solid var(--primary-rose);
+            margin: 16px 0;
+        }
+
+        .message-box p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-dark);
+            font-weight: 400;
+        }
+
+        /* Seção da pergunta */
+        .question-section {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            width: 100%;
+            margin: 12px 0;
+        }
+
+        .question {
+            font-size: 26px;
+            font-weight: 600;
+            color: var(--dark-rose);
+            font-family: 'Georgia', serif;
+            line-height: 1.3;
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                text-shadow: 0 0 0 rgba(196, 89, 109, 0);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(196, 89, 109, 0.3);
+            }
+        }
+
+        .heart-emoji {
+            font-size: 48px;
+            display: inline-block;
+            animation: pulse-heart 1.4s ease-in-out infinite;
+            margin: 8px 0;
+        }
+
+        @keyframes pulse-heart {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        /* Seção dos botões */
+        .buttons-container {
+            width: 100%;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            position: relative;
+            height: 64px;
+            min-height: 64px;
+        }
+
+        button {
+            border: none;
+            border-radius: 28px;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            z-index: 10;
+            -webkit-user-select: none;
+            user-select: none;
+            will-change: transform;
+            min-width: 120px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .yes-btn {
+            background: linear-gradient(135deg, var(--primary-rose) 0%, var(--dark-rose) 100%);
+            color: white;
+            box-shadow: 0 8px 24px rgba(196, 89, 109, 0.35);
+            flex-grow: 1;
+            max-width: 160px;
+        }
+
+        .yes-btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 4px 12px rgba(196, 89, 109, 0.25);
+        }
+
+        .no-btn {
+            background: rgba(212, 165, 116, 0.15);
+            color: var(--text-dark);
+            border: 2px solid var(--gold);
+            position: absolute;
+            transition: none;
+            z-index: 5;
+        }
+
+        .no-btn:active {
+            transform: scale(0.9);
+        }
+
+        /* Mensagens flutuantes (Easter eggs) */
+        .floating-message {
+            position: fixed;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark-rose);
+            background: rgba(232, 155, 168, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            animation: float-up 2s ease-out forwards;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        @keyframes float-up {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-80px) scale(0.8);
+            }
+        }
+
+        /* Resultado - Mensagem de sucesso */
+        .result-container {
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+            text-align: center;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-container.show {
+            display: flex;
+        }
+
+        .celebration-emoji {
+            font-size: 56px;
+            animation: bounce 0.8s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-16px);
+            }
+        }
+
+        .result-message {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--dark-rose);
+            font-family: 'Georgia', serif;
+            line-height: 1.5;
+        }
+
+        .result-subtext {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        .whatsapp-btn {
+            background: linear-gradient(135deg, #25d366 0%, #20a554 100%);
+            color: white;
+            width: 100%;
+            max-width: 280px;
+            padding: 14px 24px;
+            border-radius: 28px;
+            border: none;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35);
+            transition: all 0.2s ease;
+            margin-top: 8px;
+        }
+
+        .whatsapp-btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
+        }
+
+        /* Confete */
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        /* Responsividade */
+        @media (max-height: 700px) {
+            .container {
+                max-height: 90vh;
+            }
+
+            .message-box p {
+                font-size: 14px;
+            }
+
+            .question {
+                font-size: 24px;
+            }
+
+            .heart-emoji {
+                font-size: 40px;
+            }
+        }
+
+        /* Scroll smooth */
+        .container::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+        }
+
+        .container::-webkit-scrollbar-thumb {
+            background: rgba(196, 89, 109, 0.3);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero">
+            <p class="greeting">💌 Um momento especial</p>
+            <p class="name-highlight">Gabriella Pacheco Bontempo</p>
+        </div>
+
+        <!-- Mensagem principal -->
+        <div class="message-box">
+            <p>
+                Você é a melodia mais bonita da minha vida. Cada dia ao seu lado é um privilégio, 
+                cada sorriso seu ilumina meu caminho. Você é meu lar, meu abrigo, meu amor infinito.
+            </p>
+        </div>
+
+        <!-- Seção da pergunta -->
+        <div class="question-section">
+            <div class="heart-emoji">💖</div>
+            <p class="question">Você aceita casar comigo?</p>
+        </div>
+
+        <!-- Botões -->
+        <div class="buttons-container">
+            <button class="yes-btn" id="yesBtn">Sim! 💕</button>
+            <button class="no-btn" id="noBtn">Não</button>
+        </div>
+
+        <!-- Container de resultado -->
+        <div class="result-container" id="resultContainer">
+            <div class="celebration-emoji">💍✨</div>
+            <p class="result-message">VOCÊ DISSE SIM!</p>
+            <p class="result-subtext">
+                Você acabou de me fazer o homem mais feliz do mundo. 
+                Vamos construir nossa história juntos, cheia de amor, risadas e momentos mágicos.
+            </p>
+            <button class="whatsapp-btn" id="whatsappBtn">
+                Enviar mensagem no WhatsApp 💬
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Configurações
+        const CONFIG = {
+            noButtonBaseX: 0,
+            noButtonBaseY: 0,
+            noAttempts: 0,
+            noButtonEscapeMessages: [
+                "Ops, errou! 😄",
+                "Caminho sem saída! 🚫",
+                "Nem tenta! 😉",
+                "Não é por aí! 💫",
+                "Boa tentativa! 🎯",
+                "Fugiu de novo! 🏃",
+                "Isso aí é ilusório! ✨",
+                "Escolha a certa! 💕"
+            ]
+        };
+
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const resultContainer = document.getElementById('resultContainer');
+        const container = document.querySelector('.container');
+        const whatsappBtn = document.getElementById('whatsappBtn');
+
+        // Função para gerar número aleatório
+        function random(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        // Função para criar confete simples (sem dependências externas)
+        function createConfetti() {
+            const canvas = document.createElement('canvas');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            canvas.style.cssText = 'position:fixed;top:0;left:0;pointer-events:none;z-index:9999;';
+            document.body.appendChild(canvas);
+
+            const ctx = canvas.getContext('2d');
+            const confetti = [];
+            const confettiPieces = 80;
+
+            // Cores do confete
+            const colors = ['#e89ba8', '#f0b5c4', '#d4a574', '#e8dcc8', '#f5f1ed'];
+
+            for (let i = 0; i < confettiPieces; i++) {
+                confetti.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    vx: (Math.random() - 0.5) * 8,
+                    vy: Math.random() * 4 + 4,
+                    size: Math.random() * 6 + 3,
+                    rotation: Math.random() * 360,
+                    rotationSpeed: (Math.random() - 0.5) * 20,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    life: 1,
+                    decay: Math.random() * 0.02 + 0.015
+                });
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                let hasActive = false;
+
+                for (let piece of confetti) {
+                    if (piece.life > 0) {
+                        hasActive = true;
+                        piece.x += piece.vx;
+                        piece.y += piece.vy;
+                        piece.vy += 0.1; // gravidade
+                        piece.rotation += piece.rotationSpeed;
+                        piece.life -= piece.decay;
+
+                        ctx.save();
+                        ctx.globalAlpha = piece.life;
+                        ctx.fillStyle = piece.color;
+                        ctx.translate(piece.x, piece.y);
+                        ctx.rotate((piece.rotation * Math.PI) / 180);
+                        ctx.fillRect(-piece.size / 2, -piece.size / 2, piece.size, piece.size);
+                        ctx.restore();
+                    }
+                }
+
+                if (hasActive) {
+                    requestAnimationFrame(animate);
+                } else {
+                    canvas.remove();
+                }
+            }
+
+            animate();
+        }
+
+        // Função para criar partículas flutuantes de emoji
+        function createEmojiParticle() {
+            const emojis = ['💕', '💖', '✨', '🌹', '💍'];
+            const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.textContent = emoji;
+
+            const x = random(40, window.innerWidth - 40);
+            const y = window.innerHeight - 100;
+
+            particle.style.left = x + 'px';
+            particle.style.top = y + 'px';
+
+            document.body.appendChild(particle);
+            setTimeout(() => particle.remove(), 3000);
+        }
+
+        // Função para exibir mensagens flutuantes
+        function showFloatingMessage(message) {
+            const floatingMsg = document.createElement('div');
+            floatingMsg.className = 'floating-message';
+            floatingMsg.textContent = message;
+
+            const x = random(60, window.innerWidth - 60);
+            const y = window.innerHeight / 2;
+
+            floatingMsg.style.left = x + 'px';
+            floatingMsg.style.top = y + 'px';
+
+            document.body.appendChild(floatingMsg);
+            setTimeout(() => floatingMsg.remove(), 2000);
+        }
+
+        // Função para mover o botão "Não"
+        function moveNoButton() {
+            const buttonWidth = noBtn.offsetWidth || 120;
+            const buttonHeight = noBtn.offsetHeight || 48;
+            const containerRect = container.getBoundingClientRect();
+
+            const maxX = window.innerWidth - buttonWidth - 20;
+            const maxY = window.innerHeight - buttonHeight - 20;
+            const minX = 20;
+            const minY = 80;
+
+            const newX = random(minX, maxX);
+            const newY = random(minY, maxY);
+
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = newX + 'px';
+            noBtn.style.top = newY + 'px';
+
+            CONFIG.noAttempts++;
+
+            if (CONFIG.noAttempts % 2 === 0) {
+                const message = CONFIG.noButtonEscapeMessages[
+                    Math.floor(Math.random() * CONFIG.noButtonEscapeMessages.length)
+                ];
+                showFloatingMessage(message);
+            }
+
+            // Criar partículas de emoji
+            if (CONFIG.noAttempts % 3 === 0) {
+                createEmojiParticle();
+            }
+        }
+
+        // Evento do botão "Sim"
+        yesBtn.addEventListener('click', () => {
+            // Esconder botões
+            document.querySelector('.buttons-container').style.display = 'none';
+            document.querySelector('.question-section').style.display = 'none';
+            document.querySelector('.message-box').style.display = 'none';
+
+            // Mostrar resultado
+            resultContainer.classList.add('show');
+
+            // Criar confete
+            createConfetti();
+
+            // Criar múltiplas partículas de emoji
+            for (let i = 0; i < 6; i++) {
+                setTimeout(() => createEmojiParticle(), i * 200);
+            }
+        });
+
+        // Eventos do botão "Não" - desktop
+        noBtn.addEventListener('mouseenter', moveNoButton);
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
+
+        // Eventos do botão "Não" - mobile (touch)
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
+
+        // Evento do WhatsApp
+        whatsappBtn.addEventListener('click', () => {
+            const phoneNumber = '5511999999999'; // Número do WhatsApp (substituir com o número real)
+            const message = encodeURIComponent('Gabriella disse SIM! 💍💕 Vamos casar!');
+            window.location.href = `https://wa.me/${phoneNumber}?text=${message}`;
+        });
+
+        // Inicializar posição do botão "Não"
+        window.addEventListener('load', () => {
+            const buttonWidth = noBtn.offsetWidth || 120;
+            const buttonHeight = noBtn.offsetHeight || 48;
+            
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = (window.innerWidth / 2 + 80) + 'px';
+            noBtn.style.top = (window.innerHeight / 2 + 40) + 'px';
+        });
+
+        // Ajustar em caso de resize
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                if (!resultContainer.classList.contains('show')) {
+                    noBtn.style.position = 'absolute';
+                }
+            }, 100);
+        });
+
+        // Impedir zoom no iOS
+        document.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+    </script>
+</body>
+</html>
